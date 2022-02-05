@@ -59,7 +59,7 @@
                 <li v-if="ingredient.order < ingredients.length" class="down">
                   <button class="btn btn-secondary" type="button" v-on:click="down(ingredient.order)">Down</button>
                 </li>
-                <li v-if="ingredient.order > 1" class="delete">
+                <li class="delete">
                   <button type="button" class="btn btn-danger" v-on:click="deleteItem(ingredient.order)">Delete</button>
                 </li>
               </ul>
