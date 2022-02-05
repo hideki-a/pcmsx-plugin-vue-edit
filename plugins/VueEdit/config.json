@@ -1,0 +1,26 @@
+{
+    "label": "VueEdit",
+    "id": "vueedit",
+    "component": "VueEdit",
+    "description": "Edit property with Vue.js",
+    "version": "0.1",
+    "author": "Hideki Abe",
+    "author_link": "https://alfasado.net/",
+    "edit_properties": {
+        "vue_edit": {
+            "label": "Vue Edit",
+            "component": "VueEdit",
+            "method": "vue_edit_type",
+            "order": 100
+        }
+    },
+    "hooks": {
+        "vue_edit_post_init": {
+            "post_init": {
+                "component": "VueEdit",
+                "priority" : 5,
+                "method"   : "post_init"
+            }
+        }
+    }
+}

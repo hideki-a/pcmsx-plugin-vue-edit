@@ -1,0 +1,76 @@
+<mt:setvar name="_vue_edit_value" value="" />
+<mt:setvarblock name="_variable_name_on_error">forward_<mt:var name="__col_name__"></mt:setvarblock><mt:ignore>編集エラー時</mt:ignore>
+<mt:setvarblock name="_variable_name_on_normal">vue_edit_<mt:var name="__col_name__"></mt:setvarblock><mt:ignore>通常時</mt:ignore>
+<mt:var name="$_variable_name_on_error" setvar="_vue_edit_value" />
+<mt:unless name="_vue_edit_value"><mt:var name="$_variable_name_on_normal" setvar="_vue_edit_value" /></mt:unless>
+
+<mt:ignore>Note: HTML Standardによると、style要素が利用できるコンテキストは「メタデータコンテンツが期待される場所。headの子であるnoscript要素内。」とある。</mt:ignore>
+<style>
+  #ingredient .control {
+    width: calc(18em + 20px);
+  }
+  #ingredient .data {
+    width: calc((100% - 18em - 20px) / 2);
+  }
+  #ingredient .control ul {
+    display: flex;
+    gap: 10px;
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+  }
+  #ingredient .control .btn {
+    width: 8ch;
+  }
+</style>
+
+<div class="row form-group">
+  <div class="col-lg-2">
+    <label for="categories">材料</label>
+  </div>
+  <div class="col-lg-10">
+    <div id="ingredient" data-value="<mt:var name="_vue_edit_value" base64_encode />">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>材料名</th>
+            <th>分量</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="ingredient in ingredients" v-bind:key="ingredient.order">
+            <th class="data"><input type="text" class="form-control" v-model="ingredient.name" ref="ingredient_name"></th>
+            <td class="data"><input type="text" class="form-control" v-model="ingredient.amount"></td>
+            <td class="control">
+              <ul class="control">
+                <li v-if="ingredient.order > 1">
+                  <button type="button" class="btn btn-secondary" v-on:click="up(ingredient.order)">Up</button>
+                </li>
+                <li v-if="ingredient.order < ingredients.length">
+                  <button class="btn btn-secondary" type="button" v-on:click="down(ingredient.order)">Down</button>
+                </li>
+                <li v-if="ingredient.order > 1">
+                  <button type="button" class="btn btn-danger" v-on:click="deleteItem(ingredient.order)">Delete</button>
+                </li>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="row mt-3">
+        <div class="col-12">
+          <button type="button" class="btn btn-info" v-on:click="addItem(true)">Add</button>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-12">
+          <textarea id="<mt:var name="__col_name__">" name="<mt:var name="__col_name__">" class="form-control" rows="5" cols="50" readonly>{{cmsdata}}</textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.7.2/base64.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@3.0.5/dist/vue.global.js"></script>
+<script src="<mt:var name="vue_edit_asset_dir" escape />/js/ingredients.js"></script>
