@@ -46,19 +46,15 @@
       },
 
       up(order) {
-        const current = this.ingredients[order - 1];
-        const before = this.ingredients[order - 2];
-        this.ingredients[order - 2] = current;
-        this.ingredients[order - 1] = before;
-        this.ingredients = this.resetOrder(this.ingredients);
+        this.ingredients[order - 1].order = order - 1;
+        this.ingredients[order - 2].order = order;
+        this.ingredients.sort((a, b) => a.order - b.order);
       },
 
       down(order) {
-        const current = this.ingredients[order - 1];
-        const after = this.ingredients[order];
-        this.ingredients[order - 1] = after;
-        this.ingredients[order] = current;
-        this.ingredients = this.resetOrder(this.ingredients);
+        this.ingredients[order - 1].order = order + 1;
+        this.ingredients[order].order = order;
+        this.ingredients.sort((a, b) => a.order - b.order);
       }
     },
   };
