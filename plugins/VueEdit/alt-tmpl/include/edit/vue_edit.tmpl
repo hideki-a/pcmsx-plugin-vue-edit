@@ -7,20 +7,29 @@
 <mt:ignore>Note: HTML Standardによると、style要素が利用できるコンテキストは「メタデータコンテンツが期待される場所。headの子であるnoscript要素内。」とある。</mt:ignore>
 <style>
   #ingredient .control {
-    width: calc(18em + 20px);
+    width: 15em;
   }
   #ingredient .data {
-    width: calc((100% - 18em - 20px) / 2);
+    width: calc((100% - 15em) / 2);
   }
   #ingredient .control ul {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto;
     gap: 10px;
     margin: 0;
     padding-left: 0;
     list-style: none;
   }
+  #ingredient .control .down {
+    grid-column: 2;
+  }
+  #ingredient .control .delete {
+    grid-column: 3;
+  }
   #ingredient .control .btn {
-    width: 8ch;
+    margin-left: 0;
+    width: 100%;
   }
 </style>
 
@@ -44,13 +53,13 @@
             <td class="data"><input type="text" class="form-control" v-model="ingredient.amount"></td>
             <td class="control">
               <ul class="control">
-                <li v-if="ingredient.order > 1">
+                <li v-if="ingredient.order > 1" class="up">
                   <button type="button" class="btn btn-secondary" v-on:click="up(ingredient.order)">Up</button>
                 </li>
-                <li v-if="ingredient.order < ingredients.length">
+                <li v-if="ingredient.order < ingredients.length" class="down">
                   <button class="btn btn-secondary" type="button" v-on:click="down(ingredient.order)">Down</button>
                 </li>
-                <li v-if="ingredient.order > 1">
+                <li v-if="ingredient.order > 1" class="delete">
                   <button type="button" class="btn btn-danger" v-on:click="deleteItem(ingredient.order)">Delete</button>
                 </li>
               </ul>
