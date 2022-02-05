@@ -8,7 +8,8 @@
 
     computed: {
       cmsdata() {
-        let data = this.ingredients.filter(function (item) {
+        let data = JSON.parse(JSON.stringify(this.ingredients)); // NOTE: よりよい書き方はないか
+        data = data.filter(function (item) {
           return item.name && item.amount;
         });
         data = this.resetOrder(data);
