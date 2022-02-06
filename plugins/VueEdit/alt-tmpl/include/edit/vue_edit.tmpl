@@ -6,13 +6,23 @@
 
 <mt:ignore>Note: HTML Standardによると、style要素が利用できるコンテキストは「メタデータコンテンツが期待される場所。headの子であるnoscript要素内。」とある。</mt:ignore>
 <style>
-  #ingredient .control {
-    width: 15em;
+  #procedure .image {
+    display: flex;
+    align-items: center;
   }
-  #ingredient .data {
-    width: calc((100% - 15em) / 2);
+  #procedure .relation-list {
+    margin-bottom: 0;
+    max-width: calc(100% - 75px);
   }
-  #ingredient .control ul {
+  #procedure .relation-list img {
+    max-width: calc(100% - 40px);
+    max-height: 130px;
+  }
+  #procedure .control {
+    display: grid;
+    align-items: center;
+  }
+  #procedure .control ul {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: auto;
@@ -21,13 +31,13 @@
     padding-left: 0;
     list-style: none;
   }
-  #ingredient .control .down {
+  #procedure .control .down {
     grid-column: 2;
   }
-  #ingredient .control .delete {
+  #procedure .control .delete {
     grid-column: 3;
   }
-  #ingredient .control .btn {
+  #procedure .control .btn {
     margin-left: 0;
     width: 100%;
   }
@@ -35,38 +45,42 @@
 
 <div class="row form-group">
   <div class="col-lg-2">
-    <label for="categories">材料</label>
+    手順
   </div>
   <div class="col-lg-10">
-    <div id="ingredient" data-value="<mt:var name="_vue_edit_value" base64_encode />">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>材料名</th>
-            <th>分量</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="ingredient in ingredients" v-bind:key="ingredient.order">
-            <th class="data"><input type="text" class="form-control" v-model="ingredient.name" ref="ingredient_name"></th>
-            <td class="data"><input type="text" class="form-control" v-model="ingredient.amount"></td>
-            <td class="control">
-              <ul class="control">
-                <li v-if="ingredient.order > 1" class="up">
-                  <button type="button" class="btn btn-secondary" v-on:click="up(ingredient.order)">Up</button>
-                </li>
-                <li v-if="ingredient.order < ingredients.length" class="down">
-                  <button class="btn btn-secondary" type="button" v-on:click="down(ingredient.order)">Down</button>
-                </li>
-                <li class="delete">
-                  <button type="button" class="btn btn-danger" v-on:click="deleteItem(ingredient.order)">Delete</button>
+    <div id="procedure" data-value="<mt:var name="_vue_edit_value" base64_encode />">
+      <draggable v-model="procedures" item-key="order" @end="onDragEnd">
+        <template #item="{element}">
+          <div class="row form-group">
+            <div class="col-3 image">
+              <ul v-if="element.asset_id > 0" class="relation-list">
+                <li>
+                  <img v-bind:src="'<mt:var name="script_uri" />?__mode=get_thumbnail&_model=asset&id=' + element.asset_id" alt="" class="thumbnail">
+                  <button style="display:inline" v-bind:id="'asset_vue_edit_' + element.order + '-close'" v-bind:data-order="element.order" type="button" class="btn btn-secondary btn-sm" aria-label="<mt:trans phrase="Detach">" data-name="asset_id" v-on:click="detachRelation">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
                 </li>
               </ul>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              <input v-bind:id="'asset_vue_edit_' + element.order" type="hidden" v-model="element.asset_id">
+              <button type="button" class="btn btn-primary btn-sm dialog-chooser" data-toggle="modal" data-target="#modal" v-bind:data-href="'<mt:var name="script_uri" />?__mode=view&amp;_type=list&amp;_model=asset&amp;workspace_id=<mt:var name="workspace_id" />&amp;dialog_view=1&amp;single_select=1&amp;target=asset_vue_edit_' + element.order + '&amp;get_col=label'"><mt:trans phrase="Select..." /></button>
+            </div>
+            <div class="col-6"><textarea class="form-control" rows="3" cols="20" v-model="element.text" ref="procedure_text"></textarea></div>
+            <div class="col-3 control">
+              <ul>
+                <li v-if="element.order > 1" class="up">
+                  <button type="button" class="btn btn-secondary" v-on:click="up(element.order)">Up</button>
+                </li>
+                <li v-if="element.order < procedures.length" class="down">
+                  <button class="btn btn-secondary" type="button" v-on:click="down(element.order)">Down</button>
+                </li>
+                <li class="delete">
+                  <button type="button" class="btn btn-danger" v-on:click="deleteItem(element.order)">Delete</button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </template>
+      </draggable>
       <div class="row mt-3">
         <div class="col-12">
           <button type="button" class="btn btn-info" v-on:click="addItem(true)">Add</button>
@@ -82,4 +96,6 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/js-base64@3.7.2/base64.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue@3.0.5/dist/vue.global.js"></script>
-<script src="<mt:var name="vue_edit_asset_dir" escape />/js/ingredients.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.10.2/Sortable.min.js"></script>
+<script src="<mt:var name="vue_edit_asset_dir" escape />/js/vue.draggable.next/vuedraggable.umd.min.js"></script>
+<script src="<mt:var name="vue_edit_asset_dir" escape />/js/procedure.js"></script>
