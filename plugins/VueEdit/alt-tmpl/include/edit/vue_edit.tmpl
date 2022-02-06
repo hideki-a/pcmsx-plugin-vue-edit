@@ -6,17 +6,41 @@
 
 <mt:ignore>Note: HTML Standardによると、style要素が利用できるコンテキストは「メタデータコンテンツが期待される場所。headの子であるnoscript要素内。」とある。</mt:ignore>
 <style>
+  #procedure .form-group {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  #procedure .form-group:nth-child(2n) {
+    background-color: #F2F2F2;
+  }
   #procedure .image {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    justify-content: center;
   }
   #procedure .relation-list {
     margin-bottom: 0;
-    max-width: calc(100% - 75px);
+    max-width: 100%;
+  }
+  #procedure .relation-list li {
+    display: flex;
+    align-items: center;
+    margin-right: 0;
+    padding-top: 0 !important;
+    padding-right: 0;
   }
   #procedure .relation-list img {
-    max-width: calc(100% - 40px);
+    max-width: 66.6%;
     max-height: 130px;
+  }
+  #procedure .relation-list li .btn {
+    margin-left: 10px;
+  }
+  #procedure .relation-list + .select-asset {
+    margin-top: 10px;
+  }
+  #procedure .form-control.text {
+    height: 100%;
   }
   #procedure .control {
     display: grid;
@@ -56,15 +80,17 @@
               <ul v-if="element.asset_id > 0" class="relation-list">
                 <li>
                   <img v-bind:src="'<mt:var name="script_uri" />?__mode=get_thumbnail&_model=asset&id=' + element.asset_id" alt="" class="thumbnail">
-                  <button style="display:inline" v-bind:id="'asset_vue_edit_' + element.order + '-close'" v-bind:data-order="element.order" type="button" class="btn btn-secondary btn-sm" aria-label="<mt:trans phrase="Detach">" data-name="asset_id" v-on:click="detachRelation">
+                  <button v-bind:id="'asset_vue_edit_' + element.order + '-close'" v-bind:data-order="element.order" type="button" class="btn btn-secondary btn-sm" aria-label="<mt:trans phrase="Detach">" data-name="asset_id" v-on:click="detachRelation">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </li>
               </ul>
-              <input v-bind:id="'asset_vue_edit_' + element.order" type="hidden" v-model="element.asset_id">
-              <button type="button" class="btn btn-primary btn-sm dialog-chooser" data-toggle="modal" data-target="#modal" v-bind:data-href="'<mt:var name="script_uri" />?__mode=view&amp;_type=list&amp;_model=asset&amp;workspace_id=<mt:var name="workspace_id" />&amp;dialog_view=1&amp;single_select=1&amp;target=asset_vue_edit_' + element.order + '&amp;get_col=label'"><mt:trans phrase="Select..." /></button>
+              <div class="select-asset">
+                <input v-bind:id="'asset_vue_edit_' + element.order" type="hidden" v-model="element.asset_id">
+                <button type="button" class="btn btn-primary btn-sm dialog-chooser" data-toggle="modal" data-target="#modal" v-bind:data-href="'<mt:var name="script_uri" />?__mode=view&amp;_type=list&amp;_model=asset&amp;workspace_id=<mt:var name="workspace_id" />&amp;dialog_view=1&amp;single_select=1&amp;target=asset_vue_edit_' + element.order + '&amp;get_col=label'"><mt:trans phrase="Select..." /></button>
+              </div>
             </div>
-            <div class="col-6"><textarea class="form-control" rows="3" cols="20" v-model="element.text" ref="procedure_text"></textarea></div>
+            <div class="col-6"><textarea class="form-control text" rows="3" cols="20" v-model="element.text" ref="procedure_text"></textarea></div>
             <div class="col-3 control">
               <ul>
                 <li v-if="element.order > 1" class="up">
@@ -83,7 +109,7 @@
       </draggable>
       <div class="row mt-3">
         <div class="col-12">
-          <button type="button" class="btn btn-info" v-on:click="addItem(true)">Add</button>
+          <button type="button" class="btn btn-info ml-0" v-on:click="addItem(true)">Add</button>
         </div>
       </div>
       <div class="row mt-3">
