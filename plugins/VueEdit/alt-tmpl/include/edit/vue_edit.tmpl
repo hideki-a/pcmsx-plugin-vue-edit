@@ -88,7 +88,7 @@
               </ul>
               <div class="select-asset">
                 <input v-bind:id="'asset_vue_edit_' + element.order" type="hidden" v-model="element.asset_id">
-                <button type="button" class="btn btn-primary btn-sm dialog-chooser" data-toggle="modal" data-target="#modal" v-bind:data-href="'<mt:var name="script_uri" />?__mode=view&amp;_type=list&amp;_model=asset&amp;workspace_id=<mt:var name="workspace_id" />&amp;dialog_view=1&amp;single_select=1&amp;target=asset_vue_edit_' + element.order + '&amp;get_col=label'"><mt:trans phrase="Select..." /></button>
+                <button type="button" class="btn btn-primary btn-sm dialog-chooser" data-toggle="modal" data-target="#modal" v-bind:data-href="'<mt:var name="script_uri" />?__mode=view&amp;_type=list&amp;_model=asset&amp;workspace_id=<mt:var name="workspace_id" />&amp;dialog_view=1&amp;single_select=1&amp;target=asset_vue_edit_' + element.order + '&amp;get_col=label&amp;_filter=asset&amp;select_system_filters=filter_class_image&amp;_system_filters_option=image'"><mt:trans phrase="Select..." /></button>
               </div>
             </div>
             <div class="col-sm pb-3 pb-sm-0"><textarea class="form-control text" rows="3" cols="20" v-model="element.text" ref="procedure_text"></textarea></div>
