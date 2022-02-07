@@ -2,7 +2,6 @@
   const IngredientField = {
     data() {
       return {
-        scriptUrl: null,
         procedures: [],
       };
     },
@@ -82,7 +81,6 @@
   }
 
   vm.procedures = JSON.parse(data);
-  vm.scriptUrl =
   vm.addItem();
 
   // NOTE: モーダルの値がinput[type="hidden"]に反映されたとき、要素にイベントを送信しないとVueに反映されない
