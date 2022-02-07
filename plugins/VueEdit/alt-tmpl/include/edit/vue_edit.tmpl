@@ -77,7 +77,7 @@
       <draggable v-model="procedures" item-key="order" @end="onDragEnd">
         <template #item="{element}">
           <div class="row form-group">
-            <div class="col-3 image">
+            <div class="col-md-3 pb-3 pb-md-0 image">
               <ul v-if="element.asset_id > 0" class="relation-list">
                 <li>
                   <img v-bind:src="'<mt:var name="script_uri" />?__mode=get_thumbnail&_model=asset&id=' + element.asset_id" alt="" class="thumbnail">
@@ -91,8 +91,8 @@
                 <button type="button" class="btn btn-primary btn-sm dialog-chooser" data-toggle="modal" data-target="#modal" v-bind:data-href="'<mt:var name="script_uri" />?__mode=view&amp;_type=list&amp;_model=asset&amp;workspace_id=<mt:var name="workspace_id" />&amp;dialog_view=1&amp;single_select=1&amp;target=asset_vue_edit_' + element.order + '&amp;get_col=label'"><mt:trans phrase="Select..." /></button>
               </div>
             </div>
-            <div class="col-6"><textarea class="form-control text" rows="3" cols="20" v-model="element.text" ref="procedure_text"></textarea></div>
-            <div class="col-3 control">
+            <div class="col-sm pb-3 pb-sm-0"><textarea class="form-control text" rows="3" cols="20" v-model="element.text" ref="procedure_text"></textarea></div>
+            <div class="col-md-auto pl-3 pl-sm-0 pr-sm-3 control">
               <ul>
                 <li v-if="element.order > 1" class="up">
                   <button type="button" class="btn btn-secondary" v-on:click="up(element.order)">
