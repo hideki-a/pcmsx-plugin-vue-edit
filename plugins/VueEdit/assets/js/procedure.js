@@ -8,7 +8,7 @@
 
     computed: {
       cmsdata() {
-        let data = JSON.parse(JSON.stringify(this.procedures)); // NOTE: よりよい書き方はないか
+        let data = this.procedures.slice();
         data = data.filter(function (item) {
           return item.asset_id || item.text;
         });
